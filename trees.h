@@ -38,7 +38,7 @@ public:
 	}
 	void insert(int _index, T _object)
 	{
-		tree<T>* null = nullptr;	// дкъ япюбмемхъ рхонб
+		tree<T>* null = nullptr;	// п■п⌡п╞ п║п═п░п▓п²п∙п²п≤п╞ п╒п≤п÷п·п▓
 		T* null_t = nullptr;
 
 		tree<T>* node = this;
@@ -92,7 +92,7 @@ public:
 	}
 	void remove(int _index)
 	{
-		if (this->pIndex == nullptr)	// еякх мер щкелемрнб
+		if (this->pIndex == nullptr)	// п∙п║п⌡п≤ п²п∙п╒ п╜п⌡п∙п°п∙п²п╒п·п▓
 			throw - 1;
 		if (this->isLeaf())
 		{
@@ -104,10 +104,10 @@ public:
 		else
 		{
 			tree<T>* node = this;
-			while (1)	// онхяй сгкю я хмдейянл _index
+			while (1)	// п÷п·п≤п║п  пёп≈п⌡п░ п║ п≤п²п■п∙п п║п·п° _index
 			{
 				if (node == nullptr)
-					throw - 1;
+					throw -1;
 				else if (_index == *node->getIndex())
 					break;
 				else if (_index < *node->getIndex())
@@ -116,7 +116,7 @@ public:
 					node = node->getRight();
 			}
 
-			if (node->isLeaf())		// еякх кхяр
+			if (node->isLeaf())		// п∙п║п⌡п≤ п⌡п≤п║п╒
 			{
 				if (*node->getIndex() < *node->getParent()->getIndex())
 					node->getParent()->setLeft(nullptr);
@@ -126,15 +126,33 @@ public:
 
 			else if (node->getLeft() == nullptr && node->getRight() != nullptr)
 			{
-				if (*node->getIndex() < *node->getParent()->getIndex())
+				if (node->getParent() != nullptr)
 				{
-					node->getParent()->setLeft(node->getRight());
-					node->getRight()->setParent(node->getParent());			//  |
-					node->setRight(nullptr);								//  0 <-delete
-				}															//  |
-				if (*node->getIndex() > *node->getParent()->getIndex())		//	+-----+
-				{															//		  |
-					node->getParent()->setRight(node->getRight());			//		  0
+					if (*node->getIndex() < *node->getParent()->getIndex())
+					{
+						node->getParent()->setLeft(node->getRight());
+						node->getRight()->setParent(node->getParent());			//  |
+						node->setRight(nullptr);								//  0 <-delete
+					}															//  |
+					if (*node->getIndex() > *node->getParent()->getIndex())		//	+-----+
+					{															//		  |
+						node->getParent()->setRight(node->getRight());			//		  0
+						node->getRight()->setParent(node->getParent());
+						node->setRight(nullptr);
+					}
+				}
+				else	// п∙п║п⌡п≤ п п·п═п∙п²п╛
+				{
+					if (node->getLeft() != nullptr)
+						node = node->getLeft();
+					if (node->getRight() != nullptr)
+						node = node->getRight();
+					node->getParent()->setIndex(*node->getIndex());
+					node->getParent()->setObject(*node->getObject());
+					node->getParent()->setLeft(node->getLeft());
+					node->getLeft()->setParent(node->getParent());
+					node->setLeft(nullptr);
+					node->getParent()->setRight(node->getRight());
 					node->getRight()->setParent(node->getParent());
 					node->setRight(nullptr);
 				}
@@ -142,17 +160,35 @@ public:
 
 			else if (node->getLeft() != nullptr && node->getRight() == nullptr)
 			{
-				if (*node->getIndex() < *node->getParent()->getIndex())
+				if (node->getParent() != nullptr)
 				{
+					if (*node->getIndex() < *node->getParent()->getIndex())
+					{
+						node->getParent()->setLeft(node->getLeft());
+						node->getLeft()->setParent(node->getParent());			//			|
+						node->setLeft(nullptr);									// delete-> 0
+					}															//          |
+					if (*node->getIndex() > *node->getParent()->getIndex())		//    +-----+
+					{															//	  |
+						node->getParent()->setRight(node->getLeft());			//	  0
+						node->getLeft()->setParent(node->getParent());
+						node->setLeft(nullptr);
+					}
+				}
+				else	// п∙п║п⌡п≤ п п·п═п∙п²п╛
+				{
+					if (node->getLeft() != nullptr)
+						node = node->getLeft();
+					else if (node->getRight() != nullptr)
+						node = node->getRight();
+					node->getParent()->setIndex(*node->getIndex());
+					node->getParent()->setObject(*node->getObject());
 					node->getParent()->setLeft(node->getLeft());
-					node->getLeft()->setParent(node->getParent());			//			|
-					node->setLeft(nullptr);									// delete-> 0
-				}															//          |
-				if (*node->getIndex() > *node->getParent()->getIndex())		//    +-----+
-				{															//	  |
-					node->getParent()->setRight(node->getLeft());			//	  0
 					node->getLeft()->setParent(node->getParent());
 					node->setLeft(nullptr);
+					node->getParent()->setRight(node->getRight());
+					node->getRight()->setParent(node->getParent());
+					node->setRight(nullptr);
 				}
 			}
 
@@ -160,8 +196,8 @@ public:
 			{																	//  	 0 <-delete
 				tree<T>* _node = node;											//		 |
 				node = _node->getRight();										// +-----+-----+
-				while (node->getLeft() != nullptr)	// хыел яюлши люкемэйхи		// |           |
-					node = node->getLeft();			// щкелемр онддепебю		// 0           0
+				while (node->getLeft() != nullptr)	// п≤п╘п∙п° п║п░п°п╚п≥ п°п░п⌡п∙п²п╛п п≤п≥		// |           |
+					node = node->getLeft();			// п╜п⌡п∙п°п∙п²п╒ п÷п·п■п■п∙п═п∙п▓п░		// 0           0
 
 				_node->setIndex(*node->getIndex());
 				_node->setObject(*node->getObject());
@@ -245,29 +281,29 @@ private:
 		std::vector<std::vector<tree<T>*>> tree_levels;
 		tree_levels = this->get_tree_levels(this);
 
-		int num_lenght = this->num_lenght(this->max());	// явхрюел яйнкэйн пюгпъднб б люйяхлюкэмнл хмдейяе
+		int num_lenght = this->num_lenght(this->max());	// п║п╖п≤п╒п░п∙п° п║п п·п⌡п╛п п· п═п░п≈п═п╞п■п·п▓ п▓ п°п░п п║п≤п°п░п⌡п╛п²п·п° п≤п²п■п∙п п║п∙
 
-		// явхрюел йнккхвеярбн нрярсонб яопюбю х якебю
+		// п║п╖п≤п╒п░п∙п° п п·п⌡п⌡п≤п╖п∙п║п╒п▓п· п·п╒п║п╒пёп÷п·п▓ п║п÷п═п░п▓п░ п≤ п║п⌡п∙п▓п░
 		if (num_lenght % 2 == 0)
 			num_lenght /= 2;
 		else
 			num_lenght = (num_lenght - 1) / 2;
 
-		// юдюорюжхъ нрярсонб онд йнккхвеярбн гмюйнб б вхяке
+		// п░п■п░п÷п╒п░п╕п≤п╞ п·п╒п║п╒пёп÷п·п▓ п÷п·п■ п п·п⌡п⌡п≤п╖п∙п║п╒п▓п· п≈п²п░п п·п▓ п▓ п╖п≤п║п⌡п∙
 		int count_indent = 1;
 		{
 			int degree_of_two = 1;
 			for (int i = 2; i < num_lenght + 1; i *= 2, degree_of_two++);
-			degree_of_two += tree_levels.size();	// опхаюбкъел бшянрс депебю
+			degree_of_two += tree_levels.size();	// п÷п═п≤п▒п░п▓п⌡п╞п∙п° п▓п╚п║п·п╒пё п■п∙п═п∙п▓п░
 			for (int i = 0; i < degree_of_two; i++, count_indent *= 2);
 		}
 		count_indent--;
 		num_lenght = 0;
 
 		std::string res = "";
-		int _left = 0;	// яйнкэйн нрярсонб сдюкхрэ якебю
-		int _right = 0;	// яопюбю
-		// явхрюел онд йнпемэ
+		int _left = 0;	// п║п п·п⌡п╛п п· п·п╒п║п╒пёп÷п·п▓ пёп■п░п⌡п≤п╒п╛ п║п⌡п∙п▓п░
+		int _right = 0;	// п║п÷п═п░п▓п░
+		// п║п╖п≤п╒п░п∙п° п÷п·п■ п п·п═п∙п²п╛
 		num_lenght = this->num_lenght(*tree_levels[0][0]->getIndex());
 		if (num_lenght % 2 == 1)
 		{
@@ -282,7 +318,7 @@ private:
 
 		res += "+" + this->get_count_char("-", 2 * count_indent + 1) + "+\n";
 		res += "|" + this->get_count_char(" ", count_indent - _left) + int_to_str(*tree_levels[0][0]->getIndex())
-			+ this->get_count_char(" ", count_indent - _right) + "|\n";	// йнпемэ
+			+ this->get_count_char(" ", count_indent - _right) + "|\n";	// п п·п═п∙п²п╛
 		for (int i = 1, _count_indent = count_indent; i < tree_levels.size(); i++)
 		{
 			_count_indent = (_count_indent - 1) / 2;
@@ -293,7 +329,7 @@ private:
 				res += get_str_el_arr(tree_levels[i][j], _count_indent);
 				if (j != tree_levels[i].size() - 1)
 					res += this->get_count_char(" ", _count_indent + 1);
-				else	// еякх онякедмхи щкелемр
+				else	// п∙п║п⌡п≤ п÷п·п║п⌡п∙п■п²п≤п≥ п╜п⌡п∙п°п∙п²п╒
 					res += get_count_char(" ", (_count_indent - 1) / 2) + "|\n";
 			}
 		}
@@ -311,12 +347,12 @@ private:
 		for (int i = 0; i < tree_levels.size(); i++)
 		{
 			int count_null = 0;
-			for (tree<T> *item : tree_levels[i])	// явхрюел nullptr щкелемрш
+			for (tree<T> *item : tree_levels[i])	// п║п╖п≤п╒п░п∙п° nullptr п╜п⌡п∙п°п∙п²п╒п╚
 			{
 				if (item == null)
 					count_null++;
 			}
-			if (count_null == tree_levels[i].size())	// еякх бяъ ярпнйю nullptr, СДЮКЪЕЛ ЕЕ
+			if (count_null == tree_levels[i].size())	// п∙п║п⌡п≤ п▓п║п╞ п║п╒п═п·п п░ nullptr, я┐п╢п╟п╩я▐п╣п╪ п╣п╣
 			{
 				tree_levels.pop_back();
 				break;
@@ -325,7 +361,7 @@ private:
 				throw -1;
 			else
 			{
-				for (tree<T> *item : tree_levels[i])	// днаюбкъел ярпнйх депебю
+				for (tree<T> *item : tree_levels[i])	// п■п·п▒п░п▓п⌡п╞п∙п° п║п╒п═п·п п≤ п■п∙п═п∙п▓п░
 				{
 					if (item == nullptr)
 					{

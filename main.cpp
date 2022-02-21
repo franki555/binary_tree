@@ -11,17 +11,16 @@ int main()
     t.insert(250, 10);
     t.insert(300, 10);
     t.insert(200, 10);
-    t.insert(755, 10);
-    t.insert(705, 10);
-    t.insert(805, 10);
+    t.insert(730, 10);
+    t.insert(700, 10);
+    t.insert(850, 10);
     t.insert(255, 10);
     t.insert(305, 10);
     t.insert(205, 10);
     t.insert(150, 10);
 
-    t.remove(500);
+
     t.print();
-    //t.print_into_file("D:\\tree.txt");
 
     return 0;
 }

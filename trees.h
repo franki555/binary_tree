@@ -412,9 +412,12 @@ private:
 		}
 		return res;
 	}
-	int num_lenght(int num)
+	int num_lenght(const int _num)
 	{
+		int num = _num;
 		int count_char = 1;
+		if(num < 0)
+			num *= -10;
 		while (num >= 10)
 		{
 			count_char++;

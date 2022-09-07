@@ -8,7 +8,7 @@
 #include <vector>
 
 
-template <class T>
+template <typename T>
 class tree
 {
 public:

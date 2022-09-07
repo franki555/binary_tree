@@ -1,6 +1,6 @@
 #pragma once
-#define TREES_H
-#ifdef TREES_H
+#define TREE_H
+#ifdef TREE_H
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -436,4 +436,4 @@ private:
 	}
 };
 
-#endif // TREES_H
+#endif // TREE_H
